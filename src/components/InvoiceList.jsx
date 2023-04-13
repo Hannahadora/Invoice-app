@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import StatusTab from "./shared/StatusTab";
 import { useNavigate } from "react-router-dom";
+import { easeIn } from "../utils/gsapAnimations";
 
 const InvoiceList = ({ invoice }) => {
   const navigate = useNavigate();
+  const listRef = useRef()
+
+ useEffect(() => {
+  easeIn(listRef)
+ }, [])
+ 
 
   return (
-    <div
+    <div ref={listRef}
       onClick={() => navigate(`/invoice/${invoice.id}`)}
       className="cursor-pointer mb-[20px] text-[#666EA0] grid grid-cols-11 items-center space-x-4 bg-[#ffffff] p-[20px] shadow rounded-[10px]"
     >

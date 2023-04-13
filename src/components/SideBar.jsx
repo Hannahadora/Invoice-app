@@ -1,9 +1,12 @@
 import React from "react";
 import Logo from "./Logo";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toggleTheme } from "../redux/theme";
 
 const SideBar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   return (
     <div className="z-[50] lg:w-[100px] w-full bg-[#1e2139] rounded-r-[10px] fixed lg:h-screen h-[100px] lg:left-[0] top-[0]">
@@ -17,30 +20,19 @@ const SideBar = () => {
               onClick={() => navigate("/")}
               className="w-[30px] h-[30px] lg:mb-[32px] lg:mr-[0] mr-[24px] cursor-pointer"
               src="/images/icon-home.svg"
-              alt=""
-            />
-            <img
-              onClick={() => navigate("/settings")}
-              className="w-[30px] h-[30px] lg:mb-[32px] lg:mr-[0] mr-[24px] cursor-pointer"
-              src="/images/icon-settings.svg"
-              alt=""
+              alt="home"
             />
             <img
               onClick={() => navigate("/users")}
               className="w-[30px] h-[30px] lg:mb-[32px] lg:mr-[0] mr-[24px] cursor-pointer"
               src="/images/icon-team.svg"
-              alt=""
-            />
-            <img
-              onClick={() => navigate("/notifications")}
-              className="w-[30px] h-[30px] lg:mb-[32px] lg:mr-[0] mr-[24px] cursor-pointer"
-              src="/images/icon-notif.svg"
-              alt=""
+              alt="users"
             />
             <img
               className="w-[30px] h-[30px] cursor-pointer"
               src="/images/icon-moon.svg"
-              alt=""
+              alt="moon"
+              onClick={() => dispatch(toggleTheme('dark'))}
             />
           </div>
 

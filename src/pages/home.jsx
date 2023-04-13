@@ -3,7 +3,8 @@ import CreateInvoice from "../components/CreateInvoice";
 import InvoiceList from "../components/InvoiceList";
 import { useSelector, useDispatch } from "react-redux";
 import { hideOnClickOutside } from "../utils/ClickOutside";
-import { gsap } from "gsap";
+import { easeIn, slideDown } from "../utils/gsapAnimations";
+import gsap from "gsap";
 
 const home = () => {
   const [addInvoiceModal, setAddInvoiceModal] = useState(false);
@@ -11,8 +12,11 @@ const home = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
-  const filterRef = useRef(null);
-  const listRef = useRef(null);
+  const filterRef = useRef();
+  const listRef = useRef();
+  const filterDropdownRef = useRef();
+  const introRef = useRef();
+  const modalBtnRef = useRef(null);
 
   const invoices = useSelector((state) => state.invoices.invoices);
   const filterOptions = ["Paid", "Pending", "Draft"];
@@ -45,27 +49,31 @@ const home = () => {
   }, [selectedOptions, invoices]);
 
   useLayoutEffect(() => {
-    gsap.from(listRef.current, {
-      duration: 0.8,
-      opacity: 0,
-      y: 50,
-      stagger: 0.2,
-      ease: "power3.out",
-    });
-    // document.addEventListener("click", (event) =>
-    //   hideOnClickOutside(event, filterRef, setShowFilters(false))
-    // );
+    easeIn(listRef);
+    slideDown(introRef);
+  }, []);
 
-    // return () => {
-    //   document.removeEventListener("click", (event) =>
-    //     hideOnClickOutside(event, filterRef, setShowFilters(false))
-    //   );
-    // };
+  const handleClickOutside = (event) => {
+    if (filterRef.current && !filterRef.current.contains(event.target)) {
+      setShowFilters(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", (event) => handleClickOutside(event));
+    return () => {
+      document.removeEventListener("click", (event) =>
+        handleClickOutside(event)
+      );
+    };
   }, []);
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-[40px]">
+    <div className="page">
+      <div
+        ref={introRef}
+        className="flex items-center justify-between mb-[40px]"
+      >
         <div>
           <h1 className="text-[35px]">Invoices</h1>
           <p>There are {filteredData?.length} total invoice(s)</p>
@@ -74,7 +82,9 @@ const home = () => {
           <div className="relative mr-10" ref={filterRef}>
             <div
               className="cursor-pointer flex items-center"
-              onClick={(e) => { e.stop, toggleFilter()}}
+              onClick={(e) => {
+                e.stop, toggleFilter();
+              }}
             >
               <p className="mr-6">Filter by status:</p>{" "}
               <span>
@@ -89,29 +99,33 @@ const home = () => {
                 />
               </span>
             </div>
-            <div>
-            {showFIlters && showFIlters && (
-              <div className="bg-[#ffffff] w-[150px] absolute shadow p-3 rounded mt-4">
-                <div className="flex flex-col">
-                  {filterOptions?.map((option) => (
-                    <label key={option} className="mb-4">
-                      <input
-                        className="mr-3"
-                        type="checkbox"
-                        value={option}
-                        checked={selectedOptions.includes(option)}
-                        onChange={() => handleOptionChange(option)}
-                      />
-                      {option}
-                    </label>
-                  ))}
+            <div ref={filterDropdownRef}>
+              {showFIlters && showFIlters && (
+                <div className="bg-[#ffffff] w-[150px] z-[20] absolute shadow p-3 rounded mt-4">
+                  <div className="flex flex-col">
+                    {filterOptions?.map((option) => (
+                      <label key={option} className="mb-4">
+                        <input
+                          className="mr-3"
+                          type="checkbox"
+                          value={option}
+                          checked={selectedOptions.includes(option)}
+                          onChange={() => handleOptionChange(option)}
+                        />
+                        {option}
+                      </label>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             </div>
           </div>
           <button
-            onClick={() => setAddInvoiceModal(true)}
+            ref={modalBtnRef}
+            onClick={(e) => {
+              e.stop;
+              setAddInvoiceModal(!addInvoiceModal);
+            }}
             className="flex items-center icon_btn pry_btn rounded-[24px]"
           >
             <img
@@ -127,24 +141,24 @@ const home = () => {
       <div>
         {filteredData &&
           filteredData?.map((invoice, i) => (
-            <div ref={listRef} key={i}>
+            <div className="list_item" ref={listRef} key={i}>
               <InvoiceList invoice={invoice} />
             </div>
           ))}
       </div>
 
-      <>
-        {addInvoiceModal && addInvoiceModal ? (
+      <div>
+        {addInvoiceModal && (
           <CreateInvoice
-            onCloseModal={() => {
-              setAddInvoiceModal(false);
+            isOpen={addInvoiceModal}
+            setAddInvoiceModal={() => {
               setFilteredData(invoices);
+              setAddInvoiceModal(false);
             }}
+            btnRef={modalBtnRef}
           />
-        ) : (
-          ""
         )}
-      </>
+      </div>
     </div>
   );
 };

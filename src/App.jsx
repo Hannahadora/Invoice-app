@@ -1,12 +1,20 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Signup, Signin, Home, Users, InvoiceDetails } from './pages/index'
-import { Suspense } from 'react';
-import AuthLayout from './layouts/auth';
-import MainLayout from './layouts/main';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Signup, Signin, Home, Users, InvoiceDetails } from "./pages/index";
+import { Suspense, useEffect } from "react";
+import AuthLayout from "./layouts/auth";
+import MainLayout from "./layouts/main";
+import { useSelector } from "react-redux";
 
 function App() {
+  const theme = useSelector((state) => state.theme.theme);
+
+  useEffect(() => {
+    document.body.classList.remove("body_light-theme", "body_dark-theme");
+    document.body.classList.add(`body_${theme}-theme`);
+  }, [theme]);
+
   return (
-    <Suspense fallback={'Loading...'}>
+    <Suspense fallback={"Loading..."}>
       <Router>
         {/* <AuthLayout>
           <Routes>
@@ -16,13 +24,13 @@ function App() {
         </AuthLayout> */}
         <MainLayout>
           <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/users' element={<Users />} />
-            <Route path='/invoice/:id' element={<InvoiceDetails />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/invoice/:id" element={<InvoiceDetails />} />
           </Routes>
         </MainLayout>
       </Router>
-    </Suspense >
+    </Suspense>
   );
 }
 
