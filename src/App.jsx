@@ -9,7 +9,9 @@ function App() {
   const theme = useSelector((state) => state.theme.theme);
 
   useEffect(() => {
-    document.body.classList.remove("body_light-theme", "body_dark-theme");
+    theme === "light"
+      ? document.body.classList.remove("body_dark-theme")
+      : document.body.classList.remove("body_light-theme");
     document.body.classList.add(`body_${theme}-theme`);
   }, [theme]);
 

@@ -12,6 +12,8 @@ const home = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
+  const theme = useSelector((state) => state.theme.theme)
+
   const filterRef = useRef();
   const listRef = useRef();
   const filterDropdownRef = useRef();
@@ -101,7 +103,7 @@ const home = () => {
             </div>
             <div ref={filterDropdownRef}>
               {showFIlters && showFIlters && (
-                <div className="bg-[#ffffff] w-[150px] z-[20] absolute shadow p-3 rounded mt-4">
+                <div className={`${theme === 'light' ? "bg-[#ffffff]" : "bg-[#0a0e2e]"} w-[150px] z-[20] absolute shadow p-3 rounded mt-4`}>
                   <div className="flex flex-col">
                     {filterOptions?.map((option) => (
                       <label key={option} className="mb-4">
