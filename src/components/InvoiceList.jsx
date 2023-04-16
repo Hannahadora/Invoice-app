@@ -26,10 +26,10 @@ const InvoiceList = ({ invoice }) => {
       <h3 className="lg:col-span-2">#{invoice.id}</h3>
       <p className="lg:col-span-2 lg:text-center text-right">Due {invoice.invoiceDate}</p>
       <p className="lg:col-span-2">{invoice.clientName}</p>
-      <h3 className="lg:order-5 lg:col-span-2 text-[18px] font-spartan">
+      <h3 className="lg:order-4 order-5 lg:col-span-2 text-[18px] font-spartan">
         £{invoice.netTotal}
       </h3>
-      <div className="lg:order-4 lg:col-span-2 lg:block flex items-center justify-end">
+      <div className="lg:order-5 order-4 lg:col-span-2 lg:block flex items-center justify-end">
         <StatusTab invoice={invoice} />
       </div>
       <div className="lg:order-6 lg:flex hidden items-center justify-end">

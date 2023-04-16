@@ -10,7 +10,7 @@ const SideBar = () => {
   const theme = useSelector((state) => state.theme.theme);
 
   return (
-    <div className="z-[50] lg:w-[100px] w-full bg-[#1e2139] rounded-r-[10px] fixed lg:h-screen h-[100px] lg:left-[0] top-[0]">
+    <div className="z-[50] lg:w-[100px] w-full bg-[#1e2139] lg:rounded-r-[10px] fixed lg:h-screen h-[100px] lg:left-[0] top-[0]">
       <div className="h-full mb-[40px] flex lg:flex-col flex-row justify-between">
         <div className="lg:w-full w-[100px]">
           <Logo />

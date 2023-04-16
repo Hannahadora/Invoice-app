@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import CustomInput from "./CustomInput";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addInvoice, updateInvoice } from "../redux/invoices";
 import { generateRandomId } from "../utils/RandomIdGenerator";
 import { modalEaseInAndOut } from "../utils/gsapAnimations";
@@ -14,6 +14,7 @@ const CreateInvoice = ({
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme)
 
   const modalRef = useRef(null);
 
@@ -45,6 +46,29 @@ const CreateInvoice = ({
     netTotal: 0,
   });
 
+  const [items, setItems] = useState([{ itemname: '', quantity: 0, price: 0 }]);
+
+  const handleAddItem = () => {
+    setItems([...items, { itemname: '', quantity: 0, price: 0 }]);
+  };
+
+  const handleDeleteItem = (index) => {
+    const newItems = [...items];
+    newItems.splice(index, 1);
+    setItems(newItems);
+  };
+
+  const handleItemChange = (event, index) => {
+    const { name, value } = event.target;
+    const newItems = [...items];
+    newItems[index][name] = value;
+    setItems(newItems);
+  };
+
+  const calculateTotal = (price, quantity) => {
+    return price * quantity;
+  };
+
   const calcNetTotal = () => {
     invoiceForm.netTotal = invoiceForm.addItems?.reduce(
       (a, b) => a.quantity * a.price + b.quantity * b.price,
@@ -58,18 +82,6 @@ const CreateInvoice = ({
       .required("Required"),
   });
 
-  const deleteItem = (index) => {
-    invoiceForm.addItems.splice(index, 1);
-  };
-
-  const addItem = () => {
-    invoiceForm.addItems.push({
-      itemname: "",
-      quantity: 1,
-      price: 0,
-    });
-  };
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setInvoiceForm((prevState) => ({
@@ -78,23 +90,23 @@ const CreateInvoice = ({
     }));
   };
 
-  const handleItemChange = (event, index) => {
-    console.log("event", event);
-    console.log("index", index);
-    const { name, value } = event.target;
-    setInvoiceForm((prevState) => ({
-      ...prevState,
-      addItems: prevState.addItems.map((item, i) => {
-        if (i === index) {
-          return {
-            ...item,
-            [name]: value,
-          };
-        }
-        return item;
-      }),
-    }));
-  };
+  // const handleItemChange = (event, index) => {
+  //   console.log("event", event);
+  //   console.log("index", index);
+  //   const { name, value } = event.target;
+  //   setInvoiceForm((prevState) => ({
+  //     ...prevState,
+  //     addItems: prevState.addItems.map((item, i) => {
+  //       if (i === index) {
+  //         return {
+  //           ...item,
+  //           [name]: value,
+  //         };
+  //       }
+  //       return item;
+  //     }),
+  //   }));
+  // };
 
   const createInvoice = (status) => {
     setIsSubmitting(true);
@@ -144,11 +156,11 @@ const CreateInvoice = ({
           ref={modalRef}
           className={`${
             isOpen
-              ? "modal-scrollbar lg:ml-[100px] bg-[#ffffff] rounded-r-[10px] py-[50px] px-[20px] h-full fixed left-[0] lg:top-0 top-[95px] lg:w-[50%] w-[80%]"
-              : ""
+              ? `modal-scrollbar lg:ml-[100px] ${theme === 'light' ? 'bg-[#ffffff]' : 'bg-[#141625]'} rounded-r-[10px] py-[50px] px-[20px] h-full fixed left-[0] lg:top-0 top-[95px] lg:w-[50%] w-[100%]`
+              : ``
           }`}
         >
-          <h1 className="text-[30px] mb-[40px]">
+          <h1 className="lg:text-[28px] text-[24px] mb-[40px] pl-[20px]">
             {invoice ? `Edit Invoice - #${invoice?.id}` : "Create Invoice"}
           </h1>
           <form
@@ -272,14 +284,14 @@ const CreateInvoice = ({
               handleChange={handleInputChange}
             />
             <h4 className="text-blue-900 text-[18px]">Item List</h4>
-            {invoiceForm.addItems?.map((item, i) => (
+            {items?.map((item, i) => (
               <div key={i} className="grid grid-cols-9 space-x-4">
                 <div className="col-span-2">
                   <label>Item name</label>
                   <CustomInput
                     required
                     type="text"
-                    name={`addItems[${i}].itemname`}
+                    name={`itenname[${i}]`}
                     value={item.itemname}
                     handleChange={(event) => handleItemChange(event, i)}
                   />
@@ -289,7 +301,7 @@ const CreateInvoice = ({
                   <CustomInput
                     required
                     type="number"
-                    name={`addItems[${i}].quantity`}
+                    name={`quantity[${i}]`}
                     value={item.quantity}
                     handleChange={(event) => handleItemChange(event, i)}
                   />
@@ -299,7 +311,7 @@ const CreateInvoice = ({
                   <CustomInput
                     required
                     type="number"
-                    name={`addItems[${i}].price`}
+                    name={`price[${i}]`}
                     value={item.price}
                     handleChange={(event) => handleItemChange(event, i)}
                   />
@@ -310,14 +322,14 @@ const CreateInvoice = ({
                     disabled
                     required
                     type="number"
-                    name={`addItems[${i}].total`}
-                    value={item.price * item.quantity}
+                    name={`total[${i}]`}
+                    value={calculateTotal(item.price, item.quantity)}
                   />
                 </div>
                 <div className="flex items-center justify-end">
                   <img
                     className="cursor-pointer w-4 h-4"
-                    onClick={() => deleteItem(i)}
+                    onClick={() => handleDeleteItem(i)}
                     src="/images/icon-delete.svg"
                     alt=""
                   />
@@ -325,8 +337,8 @@ const CreateInvoice = ({
               </div>
             ))}
             <div
-              className="mt-6 p-3 cursor-pointer w-full bg-blue-100 text-blue-900 rounded text-center font-bold"
-              onClick={() => addItem()}
+              className="mt-6 p-3 cursor-pointer w-full bg-blue-100 text-blue-900 rounded-3xl text-center font-bold"
+              onClick={() => handleAddItem()}
             >
               Add Item
             </div>
