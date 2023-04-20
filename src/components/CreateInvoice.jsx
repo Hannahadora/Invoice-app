@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addInvoice, updateInvoice } from "../redux/invoices";
 import { generateRandomId } from "../utils/RandomIdGenerator";
 import { modalEaseInAndOut } from "../utils/gsapAnimations";
+import CustomModal from "./shared/CustomModal";
 
 const CreateInvoice = ({
   isOpen,
@@ -16,7 +17,6 @@ const CreateInvoice = ({
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme.theme)
 
-  const modalRef = useRef(null);
 
   const [invoiceForm, setInvoiceForm] = useState({
     id: "",
@@ -59,6 +59,7 @@ const CreateInvoice = ({
   };
 
   const handleItemChange = (event, index) => {
+    console.log(event)
     const { name, value } = event.target;
     const newItems = [...items];
     newItems[index][name] = value;
@@ -90,24 +91,6 @@ const CreateInvoice = ({
     }));
   };
 
-  // const handleItemChange = (event, index) => {
-  //   console.log("event", event);
-  //   console.log("index", index);
-  //   const { name, value } = event.target;
-  //   setInvoiceForm((prevState) => ({
-  //     ...prevState,
-  //     addItems: prevState.addItems.map((item, i) => {
-  //       if (i === index) {
-  //         return {
-  //           ...item,
-  //           [name]: value,
-  //         };
-  //       }
-  //       return item;
-  //     }),
-  //   }));
-  // };
-
   const createInvoice = (status) => {
     setIsSubmitting(true);
     const updatedInvoiceForm = {
@@ -126,40 +109,13 @@ const CreateInvoice = ({
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if(btnRef.current.contains(event.target)) {
-        return
-      }
-      else if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setAddInvoiceModal(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [modalRef]);
-
-  useEffect(() => {
     invoice && setInvoiceForm({ ...invoice });
   }, [invoice]);
 
-  useLayoutEffect(() => {
-    modalEaseInAndOut(modalRef, isOpen);
-  }, [isOpen]);
-
+ 
   return (
-    <div className="h-full">
-      <div className="bg-[#00000060] fixed lg:top-0 top-[95px] w-full right-0 left-0 h-full">
-        <div
-          ref={modalRef}
-          className={`${
-            isOpen
-              ? `modal-scrollbar lg:ml-[100px] ${theme === 'light' ? 'bg-[#ffffff]' : 'bg-[#141625]'} rounded-r-[10px] py-[50px] px-[20px] h-full fixed left-[0] lg:top-0 top-[95px] lg:w-[50%] w-[100%]`
-              : ``
-          }`}
-        >
+    <>
+     <CustomModal isOpen={isOpen} btnRef={btnRef}>
           <h1 className="lg:text-[28px] text-[24px] mb-[40px] pl-[20px]">
             {invoice ? `Edit Invoice - #${invoice?.id}` : "Create Invoice"}
           </h1>
@@ -293,7 +249,7 @@ const CreateInvoice = ({
                     type="text"
                     name={`itenname[${i}]`}
                     value={item.itemname}
-                    handleChange={(event) => handleItemChange(event, i)}
+                    handleChange={(e) => handleItemChange(e, i)}
                   />
                 </div>
                 <div className="col-span-2">
@@ -303,7 +259,7 @@ const CreateInvoice = ({
                     type="number"
                     name={`quantity[${i}]`}
                     value={item.quantity}
-                    handleChange={(event) => handleItemChange(event, i)}
+                    handleChange={(e) => handleItemChange(e, i)}
                   />
                 </div>
                 <div className="col-span-2">
@@ -313,7 +269,7 @@ const CreateInvoice = ({
                     type="number"
                     name={`price[${i}]`}
                     value={item.price}
-                    handleChange={(event) => handleItemChange(event, i)}
+                    handleChange={(e) => handleItemChange(e, i)}
                   />
                 </div>
                 <div className="col-span-2">
@@ -387,9 +343,8 @@ const CreateInvoice = ({
               </div>
             </div>
           </form>
-        </div>
-      </div>
-    </div>
+        </CustomModal>
+    </>
   );
 };
 

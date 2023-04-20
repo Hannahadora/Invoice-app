@@ -56,14 +56,12 @@ const users = () => {
           ))}
       </ul>
 
-      {addUserModal && addUserModal ? (
-        <CreateUser user={user} onCloseModal={() => {
+      {addUserModal && (
+        <CreateUser isOpen={addUserModal} user={user} onCloseModal={() => {
           setAddUserModal(false)
           dispatch(selectUser({id: ""}))
         }} />
-      ) : (
-        ""
-      )}
+      ) }
     </div>
   );
 };

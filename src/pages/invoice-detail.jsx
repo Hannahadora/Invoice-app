@@ -7,6 +7,7 @@ import { deleteInvoice, selectInvoice } from "../redux/invoices";
 import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { zoomOut } from "../utils/gsapAnimations";
+import GoBack from "../components/shared/GoBack";
 
 const InvoiceDetails = () => {
   const [addInvoiceModal, setAddInvoiceModal] = useState(false);
@@ -15,6 +16,7 @@ const InvoiceDetails = () => {
   const navigate = useNavigate();
   const modalBtnRef = useRef()
   const cardRef = useRef()
+  const theme = useSelector((state) => state.theme.theme)
 
   const invoice = useSelector((state) => state.invoices.selectedInvoice);
 
@@ -48,11 +50,8 @@ const InvoiceDetails = () => {
       {invoice && (
         <>
           <div className="details-page" ref={cardRef}>
-            <div className="mb-8 flex items-center space-x-6">
-              <img src="/images/icon-arrow-left.svg" alt="" />
-              <p>Go Back</p>
-            </div>
-            <div className="flex items-center justify-between bg-[#ffffff] rounded p-4">
+            <GoBack />
+            <div className={`flex items-center justify-between ${theme === 'light' ? "bg-[#ffffff]" : "bg-[#1e2139] text-[#fff]"} rounded p-4`}>
               <div className="flex items-center justify-between space-x-6">
                 <p>Status</p>
                 <StatusTab invoice={invoice} />
@@ -77,7 +76,7 @@ const InvoiceDetails = () => {
               </div>
             </div>
 
-            <div className="mt-8 rounded bg-[#ffffff] p-6">
+            <div className={`mt-8 rounded ${theme === 'light' ? "bg-[#ffffff]" : "bg-[#1e2139]"}  p-6`}>
               <div className="flex items-start justify-between">
                 <div>
                   <h2 className="text-[20px]">{invoice.id}</h2>
@@ -117,7 +116,7 @@ const InvoiceDetails = () => {
               </div>
 
               <div className="mt-[40px]">
-                <div className="p-4 w-full bg-gray-100 rounded-t-[10px]">
+                <div className={`p-4 w-full ${theme === 'light' ? "bg-gray-100" : "bg-[#252945]" } rounded-t-[10px]"`}>
                   <table className="w-full">
                     <thead>
                       <tr className="text-left">
@@ -145,7 +144,7 @@ const InvoiceDetails = () => {
                     </tbody>
                   </table>
                 </div>
-                <div className="bg-[#1e2139] rounded-b-[10px] px-4 py-8 flex items-center justify-between">
+                <div className={`${theme === 'light' ? "bg-[#1e2139]" : "bg-[#010311]"} rounded-b-[10px] px-4 py-8 flex items-center justify-between`}>
                   <h1 className="text-[30px] text-[#ffffff]">Amount Due</h1>
                   <h1 className="text-[30px] font-spartan text-[#ffffff]">
                     £{invoice.netTotal?.toFixed(2)}
