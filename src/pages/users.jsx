@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import CreateUser from "../components/CreateUser";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../redux/users";
@@ -7,6 +7,8 @@ const users = () => {
   const [addUserModal, setAddUserModal] = useState(false);
   const allUsers = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.users.selectedUser);
+  const theme = useSelector((state) => state.theme.theme)
+  const userListRef = useRef(null)
 
   const dispatch = useDispatch();
 
@@ -39,9 +41,11 @@ const users = () => {
       <ul className="w-full mx-auto mt-[40px]">
         {allUsers &&
           allUsers.map((user, i) => (
-            <li
+            <li ref={userListRef}
               key={i}
-              className="mb-[24px] flex items-center justify-between bg-[#ffffff] p-[16px] shadow rounded-[10px]"
+              className={`mb-[24px] flex items-center justify-between ${theme === "light"
+              ? "text-[#666EA0]  bg-[#ffffff]"
+              : "text-[#eff1ff] bg-[#1e2139]"} p-[16px] shadow rounded-[10px]`}
             >
               <h3 className="text-[20px] text-blue-900">{user.name}</h3>
               <span>{user.email}</span>

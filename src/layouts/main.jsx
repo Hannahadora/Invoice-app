@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import SideBar from "../components/SideBar";
+import { useSelector } from "react-redux";
 
 const main = ({ children }) => {
+  const theme = useSelector((state) => state.theme.theme);
+  
+  // useLayoutEffect(() => {
+  //   theme === "dark"
+  //     ? document.body.classList.remove("body_light-theme") &&
+  //       document.body.classList.add("body_dark-theme")
+  //     : document.body.classList.remove("body_dark-theme") &&
+  //       document.body.classList.add("body_light-theme");
+  //   document.body.classList.add(`body_${theme}-theme`);
+  // }, [theme]);
+
   return (
-    <div className="w-full flex lg:flex-row flex-col">
+    <div className={`${theme === "dark" ? "body_dark-theme" : "body_light-theme"} w-full flex lg:flex-row flex-col`}>
       <SideBar />
       <div className="w-[770px] mx-auto lg:px-[0px] px-[24px] lg:py-[50px] py-[150px]">{children}</div>
     </div>

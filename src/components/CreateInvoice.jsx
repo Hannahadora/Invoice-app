@@ -91,7 +91,7 @@ const CreateInvoice = ({
     }));
   };
 
-  const createInvoice = (status) => {
+  const handleCreateInvoice = (status) => {
     setIsSubmitting(true);
     const updatedInvoiceForm = {
       ...invoiceForm,
@@ -103,7 +103,7 @@ const CreateInvoice = ({
       ? dispatch(updateInvoice(updatedInvoiceForm))
       : dispatch(addInvoice(updatedInvoiceForm));
     setTimeout(() => {
-      alert("Successful!!");
+      // alert("Successful!!");
       setAddInvoiceModal();
     }, 400);
   };
@@ -121,7 +121,7 @@ const CreateInvoice = ({
           </h1>
           <form
             className="flex flex-col space-y-[24px] px-[20px] h-full pb-[50px] overflow-y-scroll"
-            onSubmit={createInvoice}
+            onSubmit={handleCreateInvoice}
           >
             <h4 className="text-blue-900 text-[18px]">Bill From:</h4>
             <CustomInput
@@ -315,7 +315,7 @@ const CreateInvoice = ({
                       type="submit"
                       className="btn pry_btn"
                       disabled={isSubmitting}
-                      onClick={() => createInvoice(invoice.status)}
+                      onClick={() => handleCreateInvoice(invoice.status)}
                     >
                       Save Changes
                     </button>
@@ -326,7 +326,7 @@ const CreateInvoice = ({
                       type="submit"
                       className="btn dark_btn"
                       disabled={isSubmitting}
-                      onClick={() => createInvoice("Draft")}
+                      onClick={() => handleCreateInvoice("Draft")}
                     >
                       Save as Draft
                     </button>
@@ -334,7 +334,7 @@ const CreateInvoice = ({
                       type="submit"
                       className="btn pry_btn"
                       disabled={isSubmitting}
-                      onClick={() => createInvoice("Pending")}
+                      onClick={() => handleCreateInvoice("Pending")}
                     >
                       Save & Send
                     </button>

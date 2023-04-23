@@ -154,7 +154,6 @@ const home = () => {
           <CreateInvoice
             isOpen={addInvoiceModal}
             setAddInvoiceModal={() => {
-              setFilteredData(invoices);
               setAddInvoiceModal(false);
             }}
             btnRef={modalBtnRef}

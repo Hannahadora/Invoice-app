@@ -6,31 +6,27 @@ import MainLayout from "./layouts/main";
 import { useSelector } from "react-redux";
 
 function App() {
-  const theme = useSelector((state) => state.theme.theme);
-
-  useEffect(() => {
-    theme === "light"
-      ? document.body.classList.remove("body_dark-theme")
-      : document.body.classList.remove("body_light-theme");
-    document.body.classList.add(`body_${theme}-theme`);
-  }, [theme]);
+  const userAccount = useSelector((state) => state.auth.account);
 
   return (
     <Suspense fallback={"Loading..."}>
       <Router>
-        {/* <AuthLayout>
-          <Routes>
-            <Route path='/auth/signin' element={<Signin />} />
-            <Route path='/auth/signup' element={<Signup />} />
-          </Routes>
-        </AuthLayout> */}
-        <MainLayout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/invoice/:id" element={<InvoiceDetails />} />
-          </Routes>
-        </MainLayout>
+        {userAccount && userAccount ? (
+          <AuthLayout>
+            <Routes>
+              <Route path="/auth/signin" element={<Signin />} />
+              <Route path="/auth/signup" element={<Signup />} />
+            </Routes>
+          </AuthLayout>
+        ) : (
+          <MainLayout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/invoice/:id" element={<InvoiceDetails />} />
+            </Routes>
+          </MainLayout>
+        )}
       </Router>
     </Suspense>
   );
