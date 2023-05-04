@@ -52,7 +52,7 @@ const zoomOut = (ref) => {
 }
 
 const spinCircle = (ref, duration) => {
-    gsap.to(circle.current, {
+    gsap.to(ref.current, {
         duration: duration,
         rotate: 360,
         repeat: -1,
