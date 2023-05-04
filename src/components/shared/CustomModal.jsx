@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { modalEaseInAndOut } from "../../utils/gsapAnimations";
 
-const CustomModal = ({ children, isOpen, btnRef }) => {
+const CustomModal = ({ children, isOpen, btnRef, setModalVisibility }) => {
   const modalRef = useRef(null);
   const theme = useSelector((state) => state.theme.theme);
   
@@ -16,7 +16,7 @@ const CustomModal = ({ children, isOpen, btnRef }) => {
         return
       }
       else if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setAddInvoiceModal(false);
+        setModalVisibility();
       }
     };
 

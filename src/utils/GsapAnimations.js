@@ -45,15 +45,25 @@ const slideDown = (ref) => {
     });
 }
 const zoomOut = (ref) => {
-    gsap.fromTo(ref.current, 
-        {  duration: 0.3, scale: 0.2, opacity: 0 },
-        {  duration: 0.3, scale: 1, opacity: 1 }
+    gsap.fromTo(ref.current,
+        { duration: 0.3, scale: 0.2, opacity: 0 },
+        { duration: 0.3, scale: 1, opacity: 1 }
     );
+}
+
+const spinCircle = (ref, duration) => {
+    gsap.to(circle.current, {
+        duration: duration,
+        rotate: 360,
+        repeat: -1,
+        ease: "none",
+    });
 }
 
 export {
     modalEaseInAndOut,
     easeIn,
     slideDown,
-    zoomOut
+    zoomOut,
+    spinCircle
 }

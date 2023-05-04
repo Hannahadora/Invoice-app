@@ -5,7 +5,7 @@ const themeFromLocalStorage = JSON.parse(localStorage.getItem("theme"));
 const themeSlice = createSlice({
     name: "theme",
     initialState: {
-        theme: themeFromLocalStorage ? themeFromLocalStorage.theme : "light",
+        theme: themeFromLocalStorage ? themeFromLocalStorage : "light",
     },
     reducers: {
       toggleTheme: (state, action) => {

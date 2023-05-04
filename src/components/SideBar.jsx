@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "./Logo";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../redux/theme";
 
@@ -17,18 +17,34 @@ const SideBar = () => {
         </div>
         <div className="lg:w-[100%] w-[70%] flex lg:flex-col flex-row items-center lg:justify-end justify-between">
           <div className="lg:w-[100%] w-[70%] flex lg:flex-col flex-row items-center lg:justify-center justify-between">
-            <img
-              onClick={() => navigate("/")}
-              className="w-[30px] h-[30px] lg:mb-[32px] lg:mr-[0] mr-[24px] cursor-pointer"
-              src="/images/icon-home.svg"
-              alt="home"
-            />
-            <img
-              onClick={() => navigate("/users")}
-              className="w-[30px] h-[30px] lg:mb-[32px] lg:mr-[0] mr-[24px] cursor-pointer"
-              src="/images/icon-team.svg"
-              alt="users"
-            />
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `lg:mb-[32px] lg:mr-[0] mr-[24px] ${
+                  isActive ? "active_navLink" : ""
+                }`
+              }
+            >
+              <img
+                className="w-[30px] cursor-pointer"
+                src="/images/icon-home.svg"
+                alt="home"
+              />
+            </NavLink>
+            <NavLink
+              to="/users"
+              className={({ isActive }) =>
+                `lg:mb-[32px] lg:mr-[0] mr-[24px] ${
+                  isActive ? "active_navLink" : ""
+                }`
+              }
+            >
+              <img
+                className="w-[30px] cursor-pointer"
+                src="/images/icon-team.svg"
+                alt="users"
+              />
+            </NavLink>
             {theme === "light" ? (
               <img
                 className="w-[20px] h-[20px] cursor-pointer"
