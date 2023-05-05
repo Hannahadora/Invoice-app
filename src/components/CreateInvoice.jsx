@@ -107,6 +107,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
   };
 
   const handleCreateInvoice = (status) => {
+    console.log("status", status);
     // validateInvoiceForm(invoiceForm)
     setIsSubmitting(true);
     const updatedInvoiceForm = {
@@ -114,9 +115,8 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
       statusText: status,
       id: invoice ? invoice.id : generateRandomId(),
       addItems: [...items],
-      netTotal: calculateNetTotal(items)
+      netTotal: calculateNetTotal(items),
     };
-    console.log("up", updatedInvoiceForm);
     invoice
       ? dispatch(updateInvoice(updatedInvoiceForm))
       : dispatch(addInvoice(updatedInvoiceForm));
@@ -137,12 +137,15 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
         btnRef={btnRef}
         setModalVisibility={() => setAddInvoiceModal(false)}
       >
-        <h1 className="lg:text-[28px] text-[24px] mb-[40px] pl-[20px]">
+        <h1 className="lg:text-[28px] text-[24px] mb-[40px] lg:pl-[20px] pl-[10px]">
           {invoice ? `Edit Invoice - #${invoice?.id}` : "Create Invoice"}
         </h1>
         <form
-          className="flex flex-col space-y-[24px] px-[20px] h-full pb-[50px] overflow-y-scroll"
-          onSubmit={handleCreateInvoice}
+          className="flex flex-col space-y-[24px] lg:px-[20px] px-[10px] h-full pb-[50px] overflow-y-scroll"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleCreateInvoice(invoice && invoice ? invoice?.status : "Pending");
+          }}
         >
           <h4 className="text-blue-900 text-[18px]">Bill From:</h4>
           <CustomInput
@@ -325,7 +328,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
             Add Item
           </div>
           {}
-          <div className="pt-[50px] pb-[20px] flex items-center justify-between space-x-[24px]">
+          <div className="pt-[40px] bg-red-900 pb-[20px] lg:mb-[0] mb-[50px] flex items-center justify-between space-x-[24px]">
             <button
               type="button"
               onClick={() => setAddInvoiceModal()}
@@ -335,37 +338,27 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
             </button>
 
             <div>
-              {invoice && invoice ? (
-                <div className="flex items-center justify-end">
-                  <button
-                    type="submit"
-                    className="btn pry_btn"
-                    disabled={isSubmitting}
-                    onClick={() => handleCreateInvoice(invoice.status)}
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center justify-end space-x-6">
+              <div className="flex items-center justify-end space-x-6">
+                {invoice && invoice ? (
+                  ""
+                ) : (
                   <button
                     type="submit"
                     className="btn dark_btn"
                     disabled={isSubmitting}
-                    onSubmit={() => handleCreateInvoice("Draft")}
+                    onClick={() => handleCreateInvoice("Draft")}
                   >
                     Save as Draft
                   </button>
-                  <button
-                    type="submit"
-                    className="btn pry_btn"
-                    disabled={isSubmitting}
-                    onSubmit={() => handleCreateInvoice("Pending")}
-                  >
-                    Save & Send
-                  </button>
-                </div>
-              )}
+                )}
+                <button
+                  type="submit"
+                  className="btn pry_btn"
+                  disabled={isSubmitting}
+                >
+                  {invoice && invoice ? "Save Changes" : "Save & Send"}
+                </button>
+              </div>
             </div>
           </div>
         </form>

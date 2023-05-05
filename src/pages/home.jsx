@@ -77,7 +77,7 @@ const home = () => {
         className="flex items-center justify-between mb-[40px]"
       >
         <div>
-          <h1 className="text-[35px]">Invoices</h1>
+          <h1 className="lg:text-[35px] text-[24px]">Invoices</h1>
           <p>There are {filteredData?.length} total invoice(s)</p>
         </div>
         <div className="flex items-center justify-end">
@@ -88,7 +88,7 @@ const home = () => {
                 e.stop, toggleFilter();
               }}
             >
-              <p className="mr-6">Filter by status:</p>{" "}
+              <p className="text-medium mr-6">Filter<span className="md:block hidden"> by status</span>:</p>{" "}
               <span>
                 <img
                   className=""
@@ -135,7 +135,7 @@ const home = () => {
               src="/images/icon-plus.svg"
               alt=""
             />{" "}
-            New Invoice
+            <p className="mr-3">New <span className="md:block hidden">Invoice</span></p>
           </button>
         </div>
       </div>
@@ -143,7 +143,7 @@ const home = () => {
       <div>
         {filteredData &&
           filteredData?.map((invoice, i) => (
-            <div className="list_item" ref={listRef} key={i}>
+            <div className="list_item mb-[20px]" ref={listRef} key={i}>
               <InvoiceList invoice={invoice} />
             </div>
           ))}

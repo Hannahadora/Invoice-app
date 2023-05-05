@@ -17,7 +17,7 @@ const InvoiceList = ({ invoice }) => {
     <div
       ref={listRef}
       onClick={() => navigate(`/invoice/${invoice.id}`)}
-      className={`cursor-pointer mb-[20px] ${
+      className={`cursor-pointer mb-[16px] ${
         theme === "light"
           ? "text-[#666EA0]  bg-[#ffffff]"
           : "text-[#eff1ff] bg-[#1e2139]"

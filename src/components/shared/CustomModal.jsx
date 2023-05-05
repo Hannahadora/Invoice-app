@@ -28,14 +28,14 @@ const CustomModal = ({ children, isOpen, btnRef, setModalVisibility }) => {
 
   return (
     <div className="h-full">
-      <div className="bg-[#00000060] fixed lg:top-0 top-[95px] w-full right-0 left-0 h-full">
+      <div className="bg-[#00000060] fixed lg:top-0 md:top-[95px] top-[65px] w-full right-0 left-0 h-full">
         <div
           ref={modalRef}
           className={`${
             isOpen
               ? `modal-scrollbar lg:ml-[100px] ${
                   theme === "light" ? "bg-[#ffffff]" : "bg-[#141625]"
-                } rounded-r-[10px] py-[50px] px-[20px] h-full fixed left-[0] lg:top-0 top-[95px] lg:w-[50%] w-[100%]`
+                } rounded-r-[10px] py-[50px] lg:px-[20px] px-[16px] h-full fixed left-[0] lg:top-0 top-[65px] lg:w-[50%] w-[100%]`
               : ``
           }`}
         >
