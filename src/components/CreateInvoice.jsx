@@ -7,6 +7,8 @@ import { generateRandomId } from "../utils/RandomIdGenerator";
 import { modalEaseInAndOut } from "../utils/gsapAnimations";
 import CustomModal from "./shared/CustomModal";
 import CustomSelect from "./CustomSelect";
+import moment from "moment";
+import { validateInvoiceForm } from "../utils/validateInvoiceForm";
 
 const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,10 +56,9 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
   };
 
   const handleItemChange = (event, index) => {
-    console.log(event);
     const { name, value } = event.target;
     const newItems = [...items];
-    newItems[index][name] = value;
+    newItems[index][name.split("-")[0]] = value;
     setItems(newItems);
   };
 
@@ -65,26 +66,37 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
     return price * quantity;
   };
 
-  const calcNetTotal = () => {
-    invoiceForm.netTotal = invoiceForm.addItems?.reduce(
-      (a, b) => a.quantity * a.price + b.quantity * b.price,
-      0
-    );
+  const calculateNetTotal = (items) => {
+    return items.reduce((total, item) => {
+      const itemTotal = parseInt(item.quantity) * parseInt(item.price);
+      return total + itemTotal;
+    }, 0);
   };
 
-  const calcNetDays = (event) => {
-    
-    invoiceForm.netTotal = invoiceForm.addItems?.reduce(
-      (a, b) => a.quantity * a.price + b.quantity * b.price,
-      0
-    );
-  };
+  const handleSelected = (val) => {
+    const currentDate = new Date(invoiceForm.invoiceDate); // Get the current date
+    const invoiceDate = new Date(currentDate); // Create a new date object with the same value as the current date
+    const oneDay = invoiceDate.setDate(currentDate.getDate() + 1); // Add one day to the new date object
+    const sevenDays = invoiceDate.setDate(currentDate.getDate() + 7);
+    const twentyOneDays = invoiceDate.setDate(currentDate.getDate() + 21);
+    const thirtyDays = invoiceDate.setDate(currentDate.getDate() + 30);
+    var pt;
 
-  const validateForm = Yup.object({
-    clientEmail: Yup.string()
-      .email("Invalid email address")
-      .required("Required"),
-  });
+    if (val === "1day") {
+      pt = moment(oneDay).format("YYYY-MM-DD");
+    } else if (val === "7days") {
+      pt = moment(sevenDays).format("YYYY-MM-DD");
+    } else if (val === "21days") {
+      pt = moment(twentyOneDays).format("YYYY-MM-DD");
+    } else if (val === "30days") {
+      pt = moment(thirtyDays).format("YYYY-MM-DD");
+    }
+
+    setInvoiceForm((prevState) => ({
+      ...prevState,
+      paymentTerms: pt,
+    }));
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -95,13 +107,16 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
   };
 
   const handleCreateInvoice = (status) => {
+    // validateInvoiceForm(invoiceForm)
     setIsSubmitting(true);
     const updatedInvoiceForm = {
       ...invoiceForm,
       statusText: status,
       id: invoice ? invoice.id : generateRandomId(),
+      addItems: [...items],
+      netTotal: calculateNetTotal(items)
     };
-    calcNetTotal();
+    console.log("up", updatedInvoiceForm);
     invoice
       ? dispatch(updateInvoice(updatedInvoiceForm))
       : dispatch(addInvoice(updatedInvoiceForm));
@@ -117,7 +132,11 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
 
   return (
     <>
-      <CustomModal isOpen={isOpen} btnRef={btnRef} setModalVisibility={() => setAddInvoiceModal(false)}>
+      <CustomModal
+        isOpen={isOpen}
+        btnRef={btnRef}
+        setModalVisibility={() => setAddInvoiceModal(false)}
+      >
         <h1 className="lg:text-[28px] text-[24px] mb-[40px] pl-[20px]">
           {invoice ? `Edit Invoice - #${invoice?.id}` : "Create Invoice"}
         </h1>
@@ -224,18 +243,17 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
               value={invoiceForm.invoiceDate}
               handleChange={handleInputChange}
             />
-            
+
             <CustomSelect
               required
               name="paymentTerms"
               placeholder="Select Payment Terms"
-              value={invoiceForm.paymentTerms}
-              handleChange={calcNetDays}
+              handleSelected={handleSelected}
               options={[
-                {name: "Net 1 Day", value: "1day"},
-                {name: "Net 7 Days", value: "7days"},
-                {name: "Net 21 Days", value: "21days"},
-                {name: "Net 30 Days", value: "30days"},
+                { name: "Net 1 Day", value: "1day" },
+                { name: "Net 7 Days", value: "7days" },
+                { name: "Net 21 Days", value: "21days" },
+                { name: "Net 30 Days", value: "30days" },
               ]}
             />
           </div>
@@ -255,7 +273,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
                 <CustomInput
                   required
                   type="text"
-                  name={`itenname[${i}]`}
+                  name={`itemname-${i}`}
                   value={item.itemname}
                   handleChange={(e) => handleItemChange(e, i)}
                 />
@@ -265,7 +283,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
                 <CustomInput
                   required
                   type="number"
-                  name={`quantity[${i}]`}
+                  name={`quantity-${i}`}
                   value={item.quantity}
                   handleChange={(e) => handleItemChange(e, i)}
                 />
@@ -275,7 +293,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
                 <CustomInput
                   required
                   type="number"
-                  name={`price[${i}]`}
+                  name={`price-${i}`}
                   value={item.price}
                   handleChange={(e) => handleItemChange(e, i)}
                 />
@@ -286,7 +304,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
                   disabled
                   required
                   type="number"
-                  name={`total[${i}]`}
+                  name={`total-${i}`}
                   value={calculateTotal(item.price, item.quantity)}
                 />
               </div>
@@ -334,7 +352,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
                     type="submit"
                     className="btn dark_btn"
                     disabled={isSubmitting}
-                    onClick={() => handleCreateInvoice("Draft")}
+                    onSubmit={() => handleCreateInvoice("Draft")}
                   >
                     Save as Draft
                   </button>
@@ -342,7 +360,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
                     type="submit"
                     className="btn pry_btn"
                     disabled={isSubmitting}
-                    onClick={() => handleCreateInvoice("Pending")}
+                    onSubmit={() => handleCreateInvoice("Pending")}
                   >
                     Save & Send
                   </button>

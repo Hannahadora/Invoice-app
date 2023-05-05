@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 const CustomSelect = ({
-  type,
   placeholder,
-  handleChange,
   error,
-  value,
+  handleSelected,
   required,
   disabled,
-  options
+  options,
 }) => {
   const theme = useSelector((state) => state.theme.theme);
+  const [selectedValue, setSelectedValue] = useState(""); // Add state for selected value
+
+  function handleChange(event) {
+    setSelectedValue(event.target.value); // Update state with new selected value
+    handleSelected(event.target.value);
+  }
 
   return (
     <div>
       <select
-        className={`w-full rounded-[5px] px-[12px] py-[10px] ${
+        className={`w-full rounded-[5px] px-[12px] py-[12px] ${
           theme === "light"
             ? "bg-transparent border"
             : "bg-[#1e2139] border-none"
@@ -24,14 +28,17 @@ const CustomSelect = ({
         disabled={disabled}
         placeholder={placeholder}
         onChange={handleChange}
-        value={value}
+        value={selectedValue} // Set the value to the selectedValue state
         required={required}
       >
-      {options.map((option, i) => (
-        <option key={i} value={option.value}>
-          {option.name}
+        <option value={""}>
+          -- Select --
         </option>
-      ))}
+        {options.map((option, i) => (
+          <option key={i} value={option.value}>
+            {option.name}
+          </option>
+        ))}
       </select>
       <div className="text-red-500 text-xs italic">{error}</div>
     </div>
