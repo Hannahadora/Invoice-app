@@ -51,6 +51,7 @@ const InvoiceDetails = () => {
         <>
           <div className="details-page" ref={cardRef}>
             <GoBack />
+            <div className="relative">
             <div
               className={`flex items-center justify-between ${
                 theme === "light" ? "bg-[#ffffff]" : "bg-[#1e2139] text-[#fff]"
@@ -60,7 +61,7 @@ const InvoiceDetails = () => {
                 <p>Status</p>
                 <StatusTab invoice={invoice} />
               </div>
-              <div className="lg:w-auto w-full lg:px-0 px-[20px] lg:flex absolute lg:py-0 py-[24px] left-0 bottom-[0px] items-center justify-between space-x-6">
+              <div className="lg:w-auto w-full lg:px-0 px-[20px] flex lg:relative absolute lg:py-0 py-[24px] left-0 bottom-[0px] items-center justify-between space-x-6">
                 <button
                   ref={modalBtnRef}
                   onClick={() => setAddInvoiceModal(true)}
@@ -161,7 +162,7 @@ const InvoiceDetails = () => {
                 <div
                   className={`${
                     theme === "light" ? "bg-[#1e2139]" : "bg-[#010311]"
-                  } rounded-b-[10px] px-4 py-8 flex items-center justify-between`}
+                  } rounded-b-[10px] px-4 py-8 flex items-center justify-between mb-[70px]`}
                 >
                   <h1 className="lg:text-[30px] text-[16px] text-[#ffffff]">Amount Due</h1>
                   <h1 className="lg:text-[30px] text-[20px] font-spartan text-[#ffffff]">
@@ -170,6 +171,7 @@ const InvoiceDetails = () => {
                 </div>
               </div>
             </div>
+          </div>
           </div>
 
           <>
