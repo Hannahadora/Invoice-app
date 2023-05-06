@@ -128,6 +128,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
 
   useEffect(() => {
     invoice && setInvoiceForm({ ...invoice });
+    invoice && setItems([...invoice.addItems])
   }, [invoice]);
 
   return (
@@ -322,13 +323,13 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
             </div>
           ))}
           <div
-            className="mt-6 p-3 cursor-pointer w-full bg-blue-100 text-blue-900 rounded-3xl text-center font-bold"
+            className="mt-6 ai_mb p-3 cursor-pointer w-full bg-blue-100 text-blue-900 rounded-3xl text-center font-bold "
             onClick={() => handleAddItem()}
           >
             Add Item
           </div>
           {}
-          <div className="pt-[40px] bg-red-900 pb-[20px] lg:mb-[0] mb-[50px] flex items-center justify-between space-x-[24px]">
+          <div className="lg:px-[30px] px-[16px] pt-[40px] bg-[#fff] shadow lg:pb-[20px] pb-[100px] flex items-center justify-between space-x-[24px] fixed w-full bottom-0 left-0">
             <button
               type="button"
               onClick={() => setAddInvoiceModal()}

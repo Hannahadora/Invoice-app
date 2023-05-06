@@ -109,6 +109,10 @@ input:disabled {
   transform: translate(-50%, -50%);
 }
 
+.ai_mb {
+  margin-bottom: 150px !important;
+}
+
 @media screen and (max-width: 768px) {
   .active_navLink {
     padding: 7px;
@@ -116,5 +120,8 @@ input:disabled {
   .btn {
     padding: 7px 10px;
     font-size: 14px;
+  }
+  .ai_mb {
+    margin-bottom: 200px !important;
   }
 }

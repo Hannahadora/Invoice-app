@@ -15,6 +15,10 @@ const invoicesSlice = createSlice({
             state.selectedInvoice = state.invoices.find((el) => el.id === action.payload.id);
             state.selectedInvoice = {...action.payload};
         },
+        markInvoiceAsPaid: (state, action) => {
+            state.selectedInvoice = state.invoices.find((el) => el.id === action.payload.id);
+            state.selectedInvoice.statusText = action.payload.status;
+        },
         deleteInvoice: (state, action) => {
             state.invoices = state.invoices.filter((el) => el.id !== action.payload.id)
         },
@@ -23,6 +27,6 @@ const invoicesSlice = createSlice({
         }
     },
 });
-export const { addInvoice, updateInvoice, deleteInvoice, selectInvoice } = invoicesSlice.actions;
+export const { addInvoice, updateInvoice, markInvoiceAsPaid, deleteInvoice, selectInvoice } = invoicesSlice.actions;
 
 export default invoicesSlice.reducer;

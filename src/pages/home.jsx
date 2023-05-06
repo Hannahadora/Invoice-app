@@ -88,10 +88,10 @@ const home = () => {
                 e.stop, toggleFilter();
               }}
             >
-              <p className="text-medium mr-6">Filter<span className="md:block hidden"> by status</span>:</p>{" "}
+              <span className="text-medium mr-1">Filter</span><span className="md:block hidden mr-1"> by status :</span>{""}
               <span>
                 <img
-                  className=""
+                  className="ml-3"
                   src={`${
                     showFIlters
                       ? "/images/icon-arrow-down.svg"
@@ -135,7 +135,7 @@ const home = () => {
               src="/images/icon-plus.svg"
               alt=""
             />{" "}
-            <p className="mr-3">New <span className="md:block hidden">Invoice</span></p>
+            <span className="mr-1">New</span> <span className="md:block hidden mr-3">Invoice</span>
           </button>
         </div>
       </div>
