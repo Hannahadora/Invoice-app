@@ -329,7 +329,7 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
             Add Item
           </div>
           {}
-          <div className="lg:px-[30px] px-[16px] pt-[40px] bg-[#fff] shadow lg:pb-[20px] pb-[100px] flex items-center justify-between space-x-[24px] fixed w-full bottom-0 left-0">
+          <div className={`lg:px-[30px] px-[16px] pt-[40px] ${theme === "light" ? "bg-[#ffffff]" : "bg-[#1e2139] text-[#fff]"} shadow lg:pb-[20px] pb-[100px] flex items-center justify-between space-x-[24px] fixed w-full bottom-0 left-0`}>
             <button
               type="button"
               onClick={() => setAddInvoiceModal()}
