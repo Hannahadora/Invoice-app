@@ -4,6 +4,7 @@ import CustomInput from "./CustomInput";
 import { addUser, updateUser } from "../redux/users";
 import { useSelector, useDispatch } from "react-redux";
 import CustomModal from "./shared/CustomModal";
+import { generateRandomId } from "../utils/RandomIdGenerator";
 
 const CreateUser = ({ setAddUserModal, user, isOpen, btnRef }) => {
   const [userForm, setUserForm] = useState({
@@ -27,6 +28,7 @@ const CreateUser = ({ setAddUserModal, user, isOpen, btnRef }) => {
     setIsSubmitting(true);
     const updatedUserForm = {
       ...userForm,
+      id: user ? user.id : generateRandomId(),
     };
     user
       ? dispatch(updateUser(updatedUserForm))

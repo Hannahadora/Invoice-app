@@ -67,10 +67,12 @@ const users = () => {
 
       {addUserModal && (
         <CreateUser
+        user={user}
           isOpen={addUserModal}
           btnRef={modalBtnRef}
           setAddUserModal={() => {
             setAddUserModal(false);
+            dispatch(selectUser({ id: "" }));
           }}
         />
       )}

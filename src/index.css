@@ -102,6 +102,12 @@ input:disabled {
   transition: 0.5s
 }
 
+@media screen and (max-width: 1024) {
+  .list_item:hover {
+    transform: none;
+  }
+}
+
 .active_navLink {
   background-color: blue;
   padding: 10px;
