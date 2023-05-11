@@ -15,12 +15,14 @@ body {
   width: 100%;
   background-color: #e2f4fa;
   color: #171616;
+  transition: background 0.5s;
 }
 
 .body-dark_theme {
   width: 100%;
   background-color: #141625;
   color: #e2f4fa;
+  transition: background 0.5s;
 }
 
 h1,
@@ -92,8 +94,12 @@ input:disabled {
   border-radius: 5px;
 }
 
+.list_item {
+  transition: 0.5s
+}
 .list_item:hover {
   transform: scaleX(1.1);
+  transition: 0.5s
 }
 
 .active_navLink {
