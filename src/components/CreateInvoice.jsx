@@ -107,7 +107,6 @@ const CreateInvoice = ({ isOpen, invoice, setAddInvoiceModal, btnRef }) => {
   };
 
   const handleCreateInvoice = (status) => {
-    console.log("status", status);
     // validateInvoiceForm(invoiceForm)
     setIsSubmitting(true);
     const updatedInvoiceForm = {

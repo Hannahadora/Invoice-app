@@ -9,6 +9,7 @@ const users = () => {
   const user = useSelector((state) => state.users.selectedUser);
   const theme = useSelector((state) => state.theme.theme)
   const userListRef = useRef(null)
+  const modalBtnRef = useRef(null)
 
   const dispatch = useDispatch();
 
@@ -26,6 +27,7 @@ const users = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-[40px]">Users</h1>
         <button
+        ref={modalBtnRef}
           onClick={() => setAddUserModal(true)}
           className="flex btn pry_btn"
         >
@@ -61,9 +63,9 @@ const users = () => {
       </ul>
 
       {addUserModal && (
-        <CreateUser isOpen={addUserModal} user={user} onCloseModal={() => {
+        <CreateUser isOpen={addUserModal} user={user} btnRef={modalBtnRef} setAddUserModal={() => {
           setAddUserModal(false)
-          dispatch(selectUser({id: ""}))
+          // dispatch(selectUser({id: ""}))
         }} />
       ) }
     </div>

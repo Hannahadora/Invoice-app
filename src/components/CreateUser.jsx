@@ -5,7 +5,7 @@ import { addUser, updateUser } from "../redux/users";
 import { useSelector, useDispatch } from "react-redux";
 import CustomModal from "./shared/CustomModal";
 
-const CreateUser = ({ onCloseModal, user, isOpen }) => {
+const CreateUser = ({ setAddUserModal, user, isOpen, btnRef }) => {
   const [userForm, setUserForm] = useState({
     id: "",
     name: "",
@@ -23,16 +23,16 @@ const CreateUser = ({ onCloseModal, user, isOpen }) => {
     }));
   };
 
-  const createUser = () => {
+  const handleCreateUser = () => {
     setIsSubmitting(true);
     const updatedUserForm = {
-      ...userForm
+      ...userForm,
     };
     user
       ? dispatch(updateUser(updatedUserForm))
       : dispatch(addUser(updatedUserForm));
     setTimeout(() => {
-      alert("Successful!!");
+      // alert("Successful!!");
       setAddUserModal();
     }, 400);
   };
@@ -43,12 +43,19 @@ const CreateUser = ({ onCloseModal, user, isOpen }) => {
 
   return (
     <>
-      <CustomModal isOpen={isOpen}>
+      <CustomModal
+        isOpen={isOpen}
+        btnRef={btnRef}
+        setModalVisibility={() => setAddUserModal(false)}
+      >
         <h1 className="text-[30px] mb-[40px]">
           {user ? "Edit User" : "Create User"}
         </h1>
 
-        <form className="flex flex-col space-y-[24px]" onSubmit={createUser}>
+        <form
+          className="flex flex-col space-y-[24px]"
+          onSubmit={handleCreateUser}
+        >
           <CustomInput
             type="text"
             name="name"
@@ -76,7 +83,7 @@ const CreateUser = ({ onCloseModal, user, isOpen }) => {
           <div className="mt-[100px] flex items-center justify-end space-x-[24px]">
             <button
               type="button"
-              onClick={() => onCloseModal()}
+              onClick={() => setAddUserModal()}
               className="btn sec_btn"
             >
               Close
@@ -86,7 +93,7 @@ const CreateUser = ({ onCloseModal, user, isOpen }) => {
               className="btn pry_btn"
               disabled={isSubmitting}
             >
-              Save
+              {user && user ? "Update" : "Save"}
             </button>
           </div>
         </form>
