@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import StatusTab from "./shared/StatusTab";
 import { useNavigate } from "react-router-dom";
-import { easeIn } from "../utils/gsapAnimations";
+import { easeIn } from "../utils/GsapAnimations";
 import { useSelector } from "react-redux";
 
 const InvoiceList = ({ invoice }) => {

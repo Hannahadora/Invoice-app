@@ -54,7 +54,10 @@ const CreateUser = ({ setAddUserModal, user, isOpen, btnRef }) => {
 
         <form
           className="flex flex-col space-y-[24px]"
-          onSubmit={handleCreateUser}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleCreateUser()
+          }}
         >
           <CustomInput
             type="text"

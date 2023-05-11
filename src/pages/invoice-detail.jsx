@@ -10,7 +10,7 @@ import {
 } from "../redux/invoices";
 import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
-import { zoomOut } from "../utils/gsapAnimations";
+import { zoomOut } from "../utils/GsapAnimations";
 import GoBack from "../components/shared/GoBack";
 
 const InvoiceDetails = () => {

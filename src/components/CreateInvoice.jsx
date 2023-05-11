@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { addInvoice, updateInvoice } from "../redux/invoices";
 import { generateRandomId } from "../utils/RandomIdGenerator";
-import { modalEaseInAndOut } from "../utils/gsapAnimations";
+import { modalEaseInAndOut } from "../utils/GsapAnimations";
 import CustomModal from "./shared/CustomModal";
 import CustomSelect from "./CustomSelect";
 import moment from "moment";

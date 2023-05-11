@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Logo from "../Logo";
-import { spinCircle } from "../../utils/gsapAnimations";
+import { spinCircle } from "../../utils/GsapAnimations";
 
 const AppLoading = () => {
   const circleRef = useRef(null);

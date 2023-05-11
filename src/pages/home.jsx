@@ -3,7 +3,7 @@ import CreateInvoice from "../components/CreateInvoice";
 import InvoiceList from "../components/InvoiceList";
 import { useSelector, useDispatch } from "react-redux";
 import { hideOnClickOutside } from "../utils/ClickOutside";
-import { easeIn, slideDown } from "../utils/gsapAnimations";
+import { easeIn, slideDown } from "../utils/GsapAnimations";
 import gsap from "gsap";
 
 const home = () => {

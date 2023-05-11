@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { modalEaseInAndOut } from "../../utils/gsapAnimations";
+import { modalEaseInAndOut } from "../../utils/GsapAnimations";
 
 const CustomModal = ({ children, isOpen, btnRef, setModalVisibility }) => {
   const modalRef = useRef(null);
