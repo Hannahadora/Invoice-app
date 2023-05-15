@@ -26,7 +26,7 @@ const SideBar = () => {
               }
             >
               <img
-                className="lg:w-[30px] w-[24px] cursor-pointer"
+                className="lg:w-[25px] w-[20px] cursor-pointer"
                 src="/images/icon-home.svg"
                 alt="home"
               />
@@ -40,7 +40,7 @@ const SideBar = () => {
               }
             >
               <img
-                className="lg:w-[30px] w-[24px] cursor-pointer"
+                className="lg:w-[25px] w-[20px] cursor-pointer"
                 src="/images/icon-team.svg"
                 alt="users"
               />

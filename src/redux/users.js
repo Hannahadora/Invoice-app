@@ -13,11 +13,11 @@ const usersSlice = createSlice({
             state.users.push({ ...action.payload });
         },
         updateUser: (state, action) => {
-            const user = state.users.find((user) => user.id === action.payload.id);
-            user = action.payload;
+            state.selectedUser = state.users.find((user) => user.id === action.payload.id);
+            state.selectedUser = {...action.payload};
         },
         deleteUser: (state, action) => {
-            return state.users.filter((el) => el.id !== action.payload.id)
+            state.users = state.users.filter((user) => user.id !== action.payload.id)
         },
         selectUser: (state, action) => {
             state.selectedUser = state.users.find(el => el.id === action.payload.id)

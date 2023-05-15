@@ -109,8 +109,9 @@ input:disabled {
 }
 
 .active_navLink {
-  background-color: blue;
-  padding: 10px;
+  /* background-color: blue; */
+  border: 1px solid #fff;
+  padding: 8px;
   border-radius: 50%;
 }
 

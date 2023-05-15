@@ -77,7 +77,7 @@ const home = () => {
         className="flex items-center justify-between mb-[40px]"
       >
         <div>
-          <h1 className="lg:text-[35px] text-[24px]">Invoices</h1>
+          <h1 className="lg:text-[35px] text-[25px]">Invoices</h1>
           <p>There are {filteredData?.length} total invoice(s)</p>
         </div>
         <div className="flex items-center justify-end">

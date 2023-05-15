@@ -21,7 +21,7 @@ const InvoiceList = ({ invoice }) => {
         theme === "light"
           ? "text-[#666EA0]  bg-[#ffffff]"
           : "text-[#eff1ff] bg-[#1e2139]"
-      } grid lg:grid-cols-11 grid-cols-2 items-center justify-between lg:space-x-4 space-x-0 lg:space-y-0 space-y-4 p-[18px] shadow rounded-[10px]`}
+      } grid lg:grid-cols-11 grid-cols-2 items-center justify-between lg:space-x-4 space-x-0 lg:space-y-0 space-y-4 lg:px-[18px] px-[10px] lg:py-[18px] py-[16px] shadow rounded-[10px]`}
     >
       <h3 className="lg:col-span-2">#{invoice.id}</h3>
       <p className="lg:col-span-2 lg:text-center text-right">Due {invoice.invoiceDate}</p>

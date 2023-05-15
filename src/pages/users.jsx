@@ -2,14 +2,16 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import CreateUser from "../components/CreateUser";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../redux/users";
+import { easeIn } from "../utils/GsapAnimations";
 
 const users = () => {
   const [addUserModal, setAddUserModal] = useState(false);
   const allUsers = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.users.selectedUser);
   const theme = useSelector((state) => state.theme.theme);
-  const userListRef = useRef(null);
+  const userListRef = useRef();
   const modalBtnRef = useRef(null);
+  const modalBtnRef2 = useRef(null);
 
   const dispatch = useDispatch();
 
@@ -20,23 +22,24 @@ const users = () => {
 
   useLayoutEffect(() => {
     // getUsers();
+    easeIn(userListRef);
   }, []);
 
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-[40px]">Users</h1>
+        <h1 className="lg:text-[35px] text-[25px]">Users</h1>
         <button
           ref={modalBtnRef}
           onClick={() => setAddUserModal(true)}
-          className="flex btn pry_btn"
+          className="flex items-center icon_btn pry_btn rounded-[24px]"
         >
           <img
             className="mr-3 p-2 bg-[#ffffff] rounded-full"
             src="/images/icon-plus.svg"
             alt=""
           />{" "}
-          Add New User
+          <span className="mr-1">New</span> <span className="md:block hidden mr-3">User</span>
         </button>
       </div>
 
@@ -50,12 +53,13 @@ const users = () => {
                 theme === "light"
                   ? "text-[#666EA0]  bg-[#ffffff]"
                   : "text-[#eff1ff] bg-[#1e2139]"
-              } p-[16px] shadow rounded-[10px]`}
+              } lg:px-[16px] lg:px-[16px] px-[8px] py-[16px] shadow rounded-[10px]`}
             >
-              <h3 className="text-[20px] text-blue-900">{user.name}</h3>
-              <span>{user.email}</span>
-              <span>{user.role}</span>
+              <h3 className="lg:text-[20px] text-[16px] text-blue-900 mr-[8px]">{user.name}</h3>
+              <span className="mr-[8px]">{user.email}</span>
+              <span className="mr-[8px]">{user.role}</span>
               <h6
+                ref={modalBtnRef2}
                 onClick={() => editUser(user)}
                 className="cursor-pointer text-red-900"
               >
@@ -67,9 +71,9 @@ const users = () => {
 
       {addUserModal && (
         <CreateUser
-        user={user}
+          user={user}
           isOpen={addUserModal}
-          btnRef={modalBtnRef}
+          btnRef={user ? modalBtnRef2 : modalBtnRef}
           setAddUserModal={() => {
             setAddUserModal(false);
             dispatch(selectUser({ id: "" }));

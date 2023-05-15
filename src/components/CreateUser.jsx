@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import CustomInput from "./CustomInput";
-import { addUser, updateUser } from "../redux/users";
+import { addUser, deleteUser, updateUser } from "../redux/users";
 import { useSelector, useDispatch } from "react-redux";
 import CustomModal from "./shared/CustomModal";
 import { generateRandomId } from "../utils/RandomIdGenerator";
@@ -39,6 +39,11 @@ const CreateUser = ({ setAddUserModal, user, isOpen, btnRef }) => {
     }, 400);
   };
 
+  const removeUser = () => {
+    dispatch(deleteUser({ id: user.id }));
+    setAddUserModal();
+  };
+
   useEffect(() => {
     user && setUserForm({ ...user });
   }, [user]);
@@ -58,7 +63,7 @@ const CreateUser = ({ setAddUserModal, user, isOpen, btnRef }) => {
           className="flex flex-col space-y-[24px]"
           onSubmit={(e) => {
             e.preventDefault();
-            handleCreateUser()
+            handleCreateUser();
           }}
         >
           <CustomInput
@@ -85,21 +90,30 @@ const CreateUser = ({ setAddUserModal, user, isOpen, btnRef }) => {
             handleChange={handleInputChange}
           />
           {}
-          <div className="mt-[100px] flex items-center justify-end space-x-[24px]">
-            <button
-              type="button"
-              onClick={() => setAddUserModal()}
-              className="btn sec_btn"
-            >
-              Close
-            </button>
-            <button
-              type="submit"
-              className="btn pry_btn"
-              disabled={isSubmitting}
-            >
-              {user && user ? "Update" : "Save"}
-            </button>
+          <div className={`mt-[150px] w-full flex items-center ${user ? 'justify-between' : 'justify-end'}`}>
+            {user && user && (
+              <div>
+                <button onClick={() => removeUser()} className="btn danger_btn">
+                  Delete
+                </button>
+              </div>
+            )}
+            <div className="flex items-center justify-end space-x-[24px]">
+              <button
+                type="button"
+                onClick={() => setAddUserModal()}
+                className="btn sec_btn"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                className="btn pry_btn"
+                disabled={isSubmitting}
+              >
+                {user && user ? "Update" : "Save"}
+              </button>
+            </div>
           </div>
         </form>
       </CustomModal>
