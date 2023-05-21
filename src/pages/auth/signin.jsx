@@ -1,30 +1,54 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import { Formik } from "formik";
 import CustomInput from "../../components/CustomInput";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../redux/auth";
+import { zoomOut } from "../../utils/GsapAnimations";
+import { useNavigate } from "react-router-dom";
 
 const signin = () => {
+  const loginFormRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const theme = useSelector((state) => state.theme.theme);
+
+  const handleLogin = (values, setSubmitting) => {
+    dispatch(loginUser(values));
+    setSubmitting(false);
+    navigate("/");
+  };
+
+  const forgotPassword = () => {};
+
+  useLayoutEffect(() => {
+    zoomOut(loginFormRef);
+  }, []);
+
   return (
     <div className="w-full">
-      <p className="text-[40px] text-center">Login</p>
-      <div className="w-[70%] mx-auto mt-[16px] p-[16px] border rounded">
+      <p className="lg:text-[28px] text-[20px] text-center">
+        Welcome Back!!! Login
+      </p>
+      <div
+        ref={loginFormRef}
+        className={`xl:w-[70%] lg:w-[90%] w-[100%] mx-auto mt-[16px] px-[20px] py-[20px] rounded ${
+          theme === "light" ? "bg-[#ffffff]" : "bg-[#141625]"
+        }`}
+      >
         <Formik
           initialValues={{ email: "", password: "" }}
           validate={(values) => {
             const errors = {};
+            if (!values.password) {
+              errors.email = "Required";
+            }
             if (!values.email) {
               errors.email = "Required";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-              errors.email = "Invalid email address";
             }
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
+            handleLogin(values, setSubmitting);
           }}
         >
           {({
@@ -37,7 +61,10 @@ const signin = () => {
             isSubmitting,
             /* and other goodies */
           }) => (
-            <form className="flex flex-col space-y-[20px]" onSubmit={handleSubmit}>
+            <form
+              className="flex flex-col space-y-[20px]"
+              onSubmit={handleSubmit}
+            >
               <CustomInput
                 type="email"
                 name="email"
@@ -68,6 +95,24 @@ const signin = () => {
             </form>
           )}
         </Formik>
+        <p
+          onClick={() => forgotPassword()}
+          className="mt-[16px] text-right text-blue-900 cursor-pointer hover:underline hover:font-bold font-medium"
+        >
+          Forgot Password
+        </p>
+      </div>
+
+      <div className="text-center mt-[20px] text-[18px]">
+        <p>
+          Don't have an account?{" "}
+          <span
+            onClick={() => navigate("/auth/signup")}
+            className="text-blue-900 cursor-pointer hover:underline hover:font-bold font-medium"
+          >
+            Register
+          </span>
+        </p>
       </div>
     </div>
   );

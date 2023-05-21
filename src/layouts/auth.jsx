@@ -1,10 +1,13 @@
 import React from "react";
 import Logo from "../components/Logo";
+import { useSelector } from "react-redux";
 
 const auth = ({ children }) => {
+  const theme = useSelector((state) => state.theme.theme);
+
   return (
-    <div className="h-screen">
-      <div className="mx-auto w-[40%] h-screen flex flex-col justify-center items-center">
+    <div className={`${theme === "dark" ? "body-dark_theme" : "body-light_theme"} h-screen"`}>
+      <div className="mx-auto xl:w-[40%] lg:w-[70%] w-[100%] h-screen flex flex-col justify-center items-center">
         <div className="w-[100px] h-[100px] overflow-hidden rounded-full mb-[24px] flex items-center justify-center">
           <Logo className="w-full" />
         </div>

@@ -22,7 +22,7 @@ function App() {
   return (
     <Suspense fallback={<AppLoading />}>
       <Router>
-        {userAccount && userAccount ? (
+        {!userAccount && !userAccount ? (
           <AuthLayout>
             <Routes>
               <Route path="/auth/signin" element={<Signin />} />
@@ -41,6 +41,7 @@ function App() {
       </Router>
     </Suspense>
   );
+  
 }
 
 export default App;
