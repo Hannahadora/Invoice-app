@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { Formik } from "formik";
 import CustomInput from "../../components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
@@ -90,7 +90,7 @@ const signin = () => {
                 className="mt-[20px] btn pry_btn"
                 disabled={isSubmitting}
               >
-                Submit
+                Login
               </button>
             </form>
           )}
@@ -107,7 +107,7 @@ const signin = () => {
         <p>
           Don't have an account?{" "}
           <span
-            onClick={() => navigate("/auth/signup")}
+            onClick={() => navigate("/auth/register")}
             className="text-blue-900 cursor-pointer hover:underline hover:font-bold font-medium"
           >
             Register

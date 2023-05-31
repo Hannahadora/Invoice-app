@@ -9,7 +9,7 @@ import AppLoading from "./components/shared/AppLoading";
 function App() {
   const userAccount = useSelector((state) => state.auth.account);
   const theme = useSelector((state) => state.theme.theme);
-  
+
   useLayoutEffect(() => {
     theme === "dark"
       ? document.body.classList.remove("body_light-theme") &&
@@ -22,26 +22,17 @@ function App() {
   return (
     <Suspense fallback={<AppLoading />}>
       <Router>
-        {!userAccount && !userAccount ? (
-          <AuthLayout>
-            <Routes>
-              <Route path="/auth/signin" element={<Signin />} />
-              <Route path="/auth/signup" element={<Signup />} />
-            </Routes>
-          </AuthLayout>
-        ) : (
-          <MainLayout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/invoice/:id" element={<InvoiceDetails />} />
-            </Routes>
-          </MainLayout>
-        )}
+        <Routes>
+            <Route path="/auth/signin" element={<AuthLayout><Signin /></AuthLayout>} />
+            <Route path="/auth/register" element={<AuthLayout><Signup /></AuthLayout>} />
+
+            <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+            <Route path="/users" element={<MainLayout><Users /></MainLayout>} />
+            <Route path="/invoice/:id" element={<MainLayout><InvoiceDetails /></MainLayout>} />
+        </Routes>
       </Router>
     </Suspense>
   );
-  
 }
 
 export default App;

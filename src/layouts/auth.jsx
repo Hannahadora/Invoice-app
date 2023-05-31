@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Logo from "../components/Logo";
 import { useSelector } from "react-redux";
+import { LsToken } from "../utils/token";
+import { useNavigate } from "react-router-dom";
 
 const auth = ({ children }) => {
   const theme = useSelector((state) => state.theme.theme);
+  const navigate = useNavigate()
+
+  // useEffect(() => {
+  //   if(LsToken) {
+  //     navigate("/")
+  //   }
+  // }, [LsToken])
 
   return (
     <div className={`${theme === "dark" ? "body-dark_theme" : "body-light_theme"} h-screen"`}>
